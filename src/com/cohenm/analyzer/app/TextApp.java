@@ -1,14 +1,18 @@
 package com.cohenm.analyzer.app;
 
-import com.cohenm.analyzer.core.DefaultNormalizer;
-import com.cohenm.analyzer.core.TextAnalyzer;
-import com.cohenm.analyzer.core.WhitespaceTokenizer;
+import com.cohenm.analyzer.core.*;
 import com.cohenm.analyzer.model.TextStats;
+
+import java.util.List;
 
 public class TextApp {
     public static void main(String[] args) {
         // jeśli implementacje są publiczne:
-        TextAnalyzer analyzer = new TextAnalyzer(new DefaultNormalizer(), new WhitespaceTokenizer());
+        TextAnalyzer analyzer = new TextAnalyzer(
+                new DefaultNormalizer(),
+                new WhitespaceTokenizer(),
+                new DefaultSentenceTokenizer());
+
 
         // analiza stringa
         TextStats stats = analyzer.analyze("To jest przykładowe zdanie.");
