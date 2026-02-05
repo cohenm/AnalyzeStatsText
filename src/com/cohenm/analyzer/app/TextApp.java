@@ -2,7 +2,6 @@ package com.cohenm.analyzer.app;
 
 import com.cohenm.analyzer.core.*;
 import com.cohenm.analyzer.model.*;
-
 import java.util.*;
 
 public class TextApp {
