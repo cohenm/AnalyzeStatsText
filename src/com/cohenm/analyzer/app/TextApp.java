@@ -1,29 +1,27 @@
 package com.cohenm.analyzer.app;
 
 import com.cohenm.analyzer.core.*;
-import com.cohenm.analyzer.model.TextStats;
+import com.cohenm.analyzer.model.*;
 
-import java.util.List;
+import java.util.*;
 
 public class TextApp {
     public static void main(String[] args) {
+
         // jeśli implementacje są publiczne:
         TextAnalyzer analyzer = new TextAnalyzer(
                 new DefaultNormalizer(),
                 new WhitespaceTokenizer(),
                 new DefaultSentenceTokenizer());
 
+        Scanner sc = new Scanner(System.in);
 
-        // analiza stringa
-        TextStats stats = analyzer.analyze("To jest przykładowe zdanie.");
-        System.out.println(stats);
+        // Pobierz bazową nazwę pliku i zbuduj ścieżkę
+        System.out.print("Podaj bazową nazwę pliku (bez .txt): ");
+        String baseName = sc.nextLine().trim();
+        String path = baseName + ".txt";
 
-        // analiza pliku z resources (obsługa IOException)
-        try {
-            TextStats fileStats = analyzer.analyzeFile("file.txt"); // ścieżka w resources
-            System.out.println(fileStats);
-        } catch (Exception e) {
-            System.err.println("Błąd podczas czytania zasobu: " + e.getMessage());
-        }
+        // uruchom interaktywne menu
+        new TextMenu (analyzer, path, sc).run();
     }
 }
