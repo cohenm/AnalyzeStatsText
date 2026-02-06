@@ -1,4 +1,4 @@
-AnalizeStatsText
+AnalyzeStatsText, budowane w IntelliJ IDEA, z JDK 23.
 Kroki:
 -- commit 1 -> struktura katalogów, 'hello world
 -- commit 2 -> lekka zmiana metody countWords() z wykorzystaniem ArrayList<String>
@@ -40,4 +40,5 @@ test/
             └── util/
             
             
-
+Dostępne release v.0.1 w zakładce release, plik jar.
+uruchamiany: java -jar AnalyzeStatsText.jar
