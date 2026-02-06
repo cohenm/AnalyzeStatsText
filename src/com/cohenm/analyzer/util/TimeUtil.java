@@ -1,7 +1,11 @@
-package com.cohenm.analyzer.io.util;
+package com.cohenm.analyzer.util;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+
+/**
+ * TimeUtil -> data locale,
+ */
 
 public class TimeUtil {
     public static String now() {

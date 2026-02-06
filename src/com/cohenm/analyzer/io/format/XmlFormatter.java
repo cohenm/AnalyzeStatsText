@@ -1,8 +1,8 @@
 package com.cohenm.analyzer.io.format;
 
-import com.cohenm.analyzer.io.util.Escape;
-import com.cohenm.analyzer.io.util.SortUtil;
-import com.cohenm.analyzer.io.util.TimeUtil;
+import com.cohenm.analyzer.util.Escape;
+import com.cohenm.analyzer.util.SortUtil;
+import com.cohenm.analyzer.util.TimeUtil;
 import com.cohenm.analyzer.model.TextStats;
 
 import java.util.Map;

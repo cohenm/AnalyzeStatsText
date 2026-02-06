@@ -1,7 +1,11 @@
-package com.cohenm.analyzer.io.util;
+package com.cohenm.analyzer.util;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+/**
+ * SortUtil -> narzędzie sortujące
+ */
 
 public class SortUtil {
 

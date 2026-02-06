@@ -1,4 +1,8 @@
-package com.cohenm.analyzer.io.util;
+package com.cohenm.analyzer.util;
+
+/**
+ * Escape -> narzędzie dla ReportWritter,
+ */
 
 public class Escape {
 
