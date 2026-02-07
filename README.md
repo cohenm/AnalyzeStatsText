@@ -9,9 +9,9 @@ Kroki:
 -- commit 7 -> dodanie skanera i menu, nowe funkcje statystyk
 -- commit 8 -> dodane zapisy do pliku w wybranych formatach
 -- commit 9 -> dodaj sortowanie "n najpopularniejszych słów" do zestawu - alfabetycznie oraz rosnąco i malejąco wg liczby wtstąpień
--- commit 10.3 -> rozbicie TextMenu, powstały nowe klasy w UI, refactor util,
--- commit 10.2 -> refaktoryzacja ReportWriter na mniejsze moduły builder, format i util
 -- commit 10.1 -> uproszczenie TextAnalyzer
+-- commit 10.2 -> refaktoryzacja ReportWriter na mniejsze moduły builder, format i util
+-- commit 10.3 -> rozbicie TextMenu, powstały nowe klasy w UI, refactor util,
 
 Struktury katalogów
 
@@ -44,5 +44,5 @@ test/
             └── util/
             
             
-Dostępne release v.0.1 w zakładce release, plik jar.
+Dostępne release v.1.0 w zakładce release, plik jar. (wg commitów zaaktualizowane do wersji 10.3 commit)
 uruchamiany: java -jar AnalyzeStatsText.jar
