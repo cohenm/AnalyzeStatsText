@@ -115,6 +115,14 @@ public class UserInput {
         };
     }
 
+    /**
+     * Alias dla askFormat(), wymagany przez TextMenu po refaktorze.
+     */
+    public ReportWriter.Format askReportFormat() {
+        return askFormat();
+    }
+
+
     // ===================== SORTOWANIE =====================
 
     /**

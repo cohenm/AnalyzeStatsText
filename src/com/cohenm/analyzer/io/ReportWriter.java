@@ -1,121 +1,79 @@
 package com.cohenm.analyzer.io;
 
 import com.cohenm.analyzer.io.builder.ReportBuilder;
+import com.cohenm.analyzer.io.builder.ReportType;
 import com.cohenm.analyzer.io.format.*;
-import com.cohenm.analyzer.io.format.Formatter;
 import com.cohenm.analyzer.model.TextStats;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*; // ArrayList, Collections, List, Map
-import java.util.stream.Collectors;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
 
 /**
- * Klasa odpowiedzialna za zapisywanie raportów do plików w różnych formatach.
- * Udostępnia statyczne metody umożliwiające zapis:
- * <ul>
- *     <li>podstawowych statystyk,</li>
- *     <li>pełnych statystyk (statystyki + częstotliwości słów),</li>
- *     <li>samej częstotliwości słów.</li>
- * </ul>
- *
- * <p>Format wyjściowy jest określany przez enum {@link Format}, a właściwa
- * implementacja formattera wybierana jest przez metodę {@link #formatter(Format)}.
- * Generowanie treści raportu delegowane jest do {@link ReportBuilder}.</p>
- *
- * <p>Klasa jest narzędziowa — posiada prywatny konstruktor i wyłącznie metody statyczne.</p>
- *
- * @see ReportBuilder
- * @see Formatter
- * @see CsvFormatter
- * @see TxtFormatter
- * @see JsonFormatter
- * @see XmlFormatter
+ * Klasa odpowiedzialna za zapis gotowych raportów do plików.
+ * Nie analizuje tekstu i nie buduje treści raportu — jedynie
+ * deleguje formatowanie do odpowiedniego Formattera oraz
+ * zapisuje wynik na dysku.
  */
 public class ReportWriter {
 
     /**
-     * Dostępne formaty raportów obsługiwane przez {@link ReportWriter}.
+     * Obsługiwane formaty raportów.
      */
-    public enum Format {CSV, TXT, JSON, XML}
-
-    /**
-     * Prywatny konstruktor uniemożliwiający tworzenie instancji klasy narzędziowej.
-     */
-    private ReportWriter() {
-    }
-
-    // ======= API publiczne =======
-
-    /**
-     * Zapisuje podstawowe statystyki tekstu do pliku w wybranym formacie.
-     *
-     * @param stats  obiekt statystyk tekstu
-     * @param out    ścieżka docelowa pliku
-     * @param format format raportu
-     * @throws IOException jeśli zapis pliku się nie powiedzie
-     */
-    public static void writeBasicStats(TextStats stats, Path out, Format format) throws IOException {
-        write(out, ReportBuilder.basic(stats, formatter(format)));
+    public enum Format {
+        CSV, TXT, JSON, XML
     }
 
     /**
-     * Zapisuje pełne statystyki tekstu (statystyki + częstotliwości słów)
-     * do pliku w wybranym formacie.
+     * Zapisuje raport do pliku.
      *
-     * @param stats  statystyki tekstu
-     * @param freq   mapa słowo → liczba wystąpień
-     * @param out    ścieżka docelowa pliku
-     * @param format format raportu
-     * @throws IOException jeśli zapis pliku się nie powiedzie
+     * @param outputPath ścieżka docelowa
+     * @param type       typ raportu (BASIC, FULL, FREQUENCY)
+     * @param stats      statystyki tekstu
+     * @param freq       mapa częstotliwości słów
+     * @param format     format raportu
      */
-    public static void writeFullStats(TextStats stats, java.util.Map<String, Integer> freq, Path out, Format format) throws IOException {
-        write(out, ReportBuilder.full(stats, freq, formatter(format)));
-    }
+    public static void writeReport(Path outputPath,
+                                   ReportType type,
+                                   TextStats stats,
+                                   Map<String, Integer> freq,
+                                   Format format) {
 
-    /**
-     * Zapisuje raport zawierający wyłącznie częstotliwości słów.
-     *
-     * @param freq   mapa słowo → liczba wystąpień
-     * @param out    ścieżka docelowa pliku
-     * @param format format raportu
-     * @throws IOException jeśli zapis pliku się nie powiedzie
-     */
-    public static void writeWordFrequency(java.util.Map<String, Integer> freq, Path out, Format format) throws IOException {
-        write(out, ReportBuilder.frequency(freq, formatter(format)));
-    }
+        try {
+            Formatter formatter = formatter(format);
 
-    /**
-     * Zapisuje treść raportu do pliku, tworząc katalogi pośrednie jeśli to konieczne.
-     *
-     * @param out     ścieżka docelowa
-     * @param content treść raportu
-     * @throws IOException jeśli zapis pliku się nie powiedzie
-     */
-    private static void write(Path out, String content) throws IOException {
-        Path parent = out.getParent();
-        if (parent != null) {
-            Files.createDirectories(parent);
+            String content = ReportBuilder.build(
+                    type,
+                    stats,
+                    freq,
+                    formatter
+            );
+
+            write(outputPath, content);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Nie udało się zapisać raportu: " + e.getMessage(), e);
         }
-        Files.writeString(out, content, StandardCharsets.UTF_8);
     }
 
     /**
-     * Zwraca odpowiednią implementację {@link Formatter} na podstawie wybranego formatu.
-     *
-     * @param f format raportu
-     * @return instancja formattera
+     * Zwraca odpowiedni formatter na podstawie formatu.
      */
-    private static Formatter formatter(Format f) {
-        return switch (f) {
+    public static Formatter formatter(Format format) {
+        return switch (format) {
             case CSV -> new CsvFormatter();
             case TXT -> new TxtFormatter();
             case JSON -> new JsonFormatter();
             case XML -> new XmlFormatter();
         };
+    }
+
+    /**
+     * Zapisuje treść do pliku, tworząc katalogi jeśli trzeba.
+     */
+    public static void write(Path path, String content) throws IOException {
+        Files.createDirectories(path.getParent());
+        Files.writeString(path, content);
     }
 }

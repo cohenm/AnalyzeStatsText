@@ -27,29 +27,9 @@ import java.util.Map;
 
 public interface Formatter {
 
-    /**
-     * Generuje podstawowy raport zawierający ogólne statystyki tekstu.
-     *
-     * @param textStats obiekt statystyk tekstu
-     * @return sformatowany raport tekstowy
-     */
-    String basic(TextStats textStats);
 
-    /**
-     * Generuje pełny raport zawierający statystyki oraz mapę
-     * częstotliwości słów.
-     *
-     * @param textStats statystyki tekstu
-     * @param freq      mapa słowo → liczba wystąpień
-     * @return sformatowany raport tekstowy
-     */
-    String full(TextStats textStats, Map<String, Integer> freq);
+    String formatBasic(TextStats stats);
+    String formatFull(TextStats stats, Map<String,Integer> freq);
+    String formatFrequency(Map<String,Integer> freq);
 
-    /**
-     * Generuje raport zawierający wyłącznie częstotliwości słów.
-     *
-     * @param freq mapa słowo → liczba wystąpień
-     * @return sformatowany raport tekstowy
-     */
-    String frequency(Map<String, Integer> freq);
 }
