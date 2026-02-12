@@ -17,7 +17,7 @@ Projekt został zaprojektowany w architekturze warstwowej, z wyraźnym podziałe
 * **model** – struktury danych
 * **io** – zapis i formatowanie raportów
 * **ui** – interakcja z użytkownikiem
-* **util** – narzędzia pomocnicze
+
 
 Całość jest w pełni udokumentowana i łatwa do rozszerzenia.
 
