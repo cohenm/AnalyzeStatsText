@@ -66,7 +66,7 @@ Czytelne formatowanie wyników
 ### Struktura katalogów
 
 
-
+```
 src/
 
 └── main/
@@ -130,8 +130,7 @@ src/
 │   ├── StatsPrinter.java
 
 │   └── ReportSaver.java
-
-
+```
 
 
 
@@ -164,6 +163,7 @@ src/
 
 
 
+```
 === STATYSTYKI ===
 
 Słowa: 123
@@ -173,6 +173,7 @@ Znaki (ze spacjami): 789
 Znaki (bez spacji): 654
 
 Zdania: 7
+```
 
 
 
@@ -182,17 +183,15 @@ Zdania: 7
 
 
 
-=== TOP 10 słów — sortowanie: FREQUENCY\_DESC ===
+```
+=== TOP 10 słów — sortowanie: FREQUENCY\\\_DESC ===
+
 
 lorem                : 15
-
 ipsum                : 12
-
 dolor                : 9
-
 ...
-
-
+```
 
 
 
@@ -202,6 +201,7 @@ dolor                : 9
 
 === Częstotliwości (pierwsze 50) ===
 
+```
 lorem                : 15
 
 ipsum                : 12
@@ -209,6 +209,7 @@ ipsum                : 12
 ...
 
 (razem: 342)
+```
 
 
 
@@ -218,17 +219,20 @@ ipsum                : 12
 
 
 
+```
 json
 {
-\&nbsp; "type": "basic\\\_stats",
-\&nbsp; "generatedAt": "2025-01-01T12:00:00+01:00",
-\&nbsp; "stats": {
-\&nbsp;   "words": 123,
-\&nbsp;   "charsWithSpaces": 789,
-\&nbsp;   "charsWithoutSpaces": 654,
-\&nbsp;   "sentences": 7
-\&nbsp; }
+\\\&nbsp; "type": "basic\\\\\\\_stats",
+\\\&nbsp; "generatedAt": "2025-01-01T12:00:00+01:00",
+\\\&nbsp; "stats": {
+\\\&nbsp;   "words": 123,
+\\\&nbsp;   "charsWithSpaces": 789,
+\\\&nbsp;   "charsWithoutSpaces": 654,
+\\\&nbsp;   "sentences": 7
+\\\&nbsp; }
 }
+```
+
 
 
 
@@ -240,6 +244,7 @@ json
 **Raporty zapisywane są automatycznie do katalogu:**
 
 
+
 output/
 
 
@@ -247,7 +252,12 @@ output/
 **Przykład:**
 
 
-output/example-basic\\\_stats.json
+
+```
+output/example-basic\_stats.json
+
+```
+
 
 
 
@@ -262,6 +272,7 @@ Pliki wejściowe w katalogu resources/
 
 
 
+
 ### Uruchomienie
 
 
@@ -269,19 +280,25 @@ Pliki wejściowe w katalogu resources/
 **1. Skompiluj projekt**
 
 
-mvn clean package
+
+`mvn clean package`
+
 lub
 
-javac -d out $(find src -name "\\\*.java")
+`javac -d out $(find src -name "\\\\\\\*.java")`
+
 
 
 **2. Uruchom aplikację**
 
 
+
 Jeśli masz klasę Main:
 
 
-java -cp out com.cohenm.analyzer.Main
+
+`java -cp out com.cohenm.analyzer.Main`
+
 
 
 
@@ -293,12 +310,15 @@ java -cp out com.cohenm.analyzer.Main
 Możesz łatwo dodać:
 
 
+
 ✔ nowy format raportu
 Wystarczy stworzyć klasę implementującą Formatter i dodać ją w ReportWriter.
 
 
+
 ✔ nowe metryki analizy
 Dodaj pola do TextStats i logikę w TextAnalyzer.
+
 
 
 ✔ nowe tryby sortowania
