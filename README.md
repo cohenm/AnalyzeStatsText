@@ -88,6 +88,7 @@ Czytelne formatowanie wyników
 
 
 Java 23+
+
 Pliki wejściowe w katalogu resources/
 
 
