@@ -1,48 +1,120 @@
-AnalyzeStatsText, budowane w IntelliJ IDEA, z JDK 23.
-Kroki:
--- commit 1 -> struktura katalogów, 'hello world
--- commit 2 -> lekka zmiana metody countWords() z wykorzystaniem ArrayList<String>
--- commit 3 -> czasowe przeniesienie metod do osobnego pliku
--- commit 4 -> czytanie plików tekstowych z lokacji zasobów
--- commit 5 -> Budowa core/ analizatorów: słowa, znaki, rekord TextStats, usunięcie statycznych metod
--- commit 6 -> Dodanie nowego interfejsu, implementacji, możliwości liczenia zdań.
--- commit 7 -> dodanie skanera i menu, nowe funkcje statystyk
--- commit 8 -> dodane zapisy do pliku w wybranych formatach
--- commit 9 -> dodaj sortowanie "n najpopularniejszych słów" do zestawu - alfabetycznie oraz rosnąco i malejąco wg liczby wtstąpień
--- commit 10.1 -> uproszczenie TextAnalyzer
--- commit 10.2 -> refaktoryzacja ReportWriter na mniejsze moduły builder, format i util
--- commit 10.3 -> rozbicie TextMenu, powstały nowe klasy w UI, refactor util,
+# \# Text Analyzer
 
-Struktury katalogów
 
-docs/
-resources/
-src/
-└── com/
-    └── cohenm/
-        └── analyzer/
-        └── analyzer/
-            ├── app/
-            ├── core/
-            ├── io/
-                └── builder/
-                └── format/
-            ├── model/
-            ├── ui/
-            └── util/
-test/
-└── com/
-    └── cohenm/
-        └── analyzer/
-            ├── app/
-            ├── core/
-            ├── io/
-                └── builder/
-                └── format/
-            ├── model/
-            ├── ui/
-            └── util/
-            
-            
-Dostępne release v.1.0 w zakładce release, plik jar. (wg commitów zaaktualizowane do wersji 10.3 commit)
-uruchamiany: java -jar AnalyzeStatsText.jar
+
+
+
+## Modularny analizator tekstu z obsługą raportów w wielu formatach (CSV, TXT, JSON, XML)
+
+
+
+Text Analyzer to lekki, modularny projekt w Javie służący do analizy tekstu, generowania statystyk, liczenia częstotliwości słów oraz tworzenia raportów w różnych formatach.
+
+Projekt został zaprojektowany w architekturze warstwowej, z wyraźnym podziałem na:
+
+* **app** – klasa z main klasą, obsługa menu
+* **core** – logika analizy tekstu
+* **model** – struktury danych
+* **io** – zapis i formatowanie raportów
+* **ui** – interakcja z użytkownikiem
+
+
+Całość jest w pełni udokumentowana i łatwa do rozszerzenia.
+
+
+
+
+
+### Funkcjonalności
+
+
+
+**Analiza tekstu i plików:**
+
+* liczba słów
+* liczba znaków (ze spacjami i bez)
+* liczba zdań
+
+
+
+**Liczenie częstotliwości słów:**
+
+* filtrowanie stop‑words
+* minimalna długość słowa
+* sortowanie wg `WordSort`
+
+
+
+**Generowanie raportów w formatach:**
+
+* CSV
+* TXT
+* JSON
+* XML
+
+
+
+Zapis raportów do plików z automatycznym tworzeniem katalogów
+
+Interaktywne UI w konsoli
+
+Czytelne formatowanie wyników
+
+
+
+
+### Jak działa analiza?
+
+
+
+**TextAnalyzer** wykonuje:
+
+
+
+1. *Normalizację* tekstu
+2. *Tokenizację* słów
+3. *Tokenizację* zdań
+4. Obliczenie statystyk *TextStats*
+5. Liczenie częstotliwości słów
+6. Sortowanie wg *WordSort*
+
+
+
+
+
+
+### Wymagania
+
+
+
+Java 23+
+
+Pliki wejściowe w katalogu resources/
+
+
+
+
+
+
+
+### Rozszerzanie projektu
+
+
+
+Możesz łatwo dodać:
+
+
+
+✔ nowy format raportu
+Wystarczy stworzyć klasę implementującą Formatter i dodać ją w ReportWriter.
+
+
+
+✔ nowe metryki analizy
+Dodaj pola do TextStats i logikę w TextAnalyzer.
+
+
+
+✔ nowe tryby sortowania
+Dodaj wartość w WordSort.
+
