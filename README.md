@@ -12,6 +12,7 @@ Text Analyzer to lekki, modularny projekt w Javie służący do analizy tekstu, 
 
 Projekt został zaprojektowany w architekturze warstwowej, z wyraźnym podziałem na:
 
+* **app** – klasa z main klasą, obsługa menu
 * **core** – logika analizy tekstu
 * **model** – struktury danych
 * **io** – zapis i formatowanie raportów
