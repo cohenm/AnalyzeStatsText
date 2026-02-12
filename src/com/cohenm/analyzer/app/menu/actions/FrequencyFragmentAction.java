@@ -1,33 +1,29 @@
 package com.cohenm.analyzer.app.menu.actions;
 
+import com.cohenm.analyzer.app.Settings;
 import com.cohenm.analyzer.app.menu.MenuAction;
 import com.cohenm.analyzer.core.TextAnalyzer;
 import com.cohenm.analyzer.model.WordSort;
 import com.cohenm.analyzer.ui.StatsPrinter;
-
-import java.util.Set;
 
 public class FrequencyFragmentAction implements MenuAction {
 
     private final TextAnalyzer analyzer;
     private final StatsPrinter printer;
     private final String path;
-    private final Set<String> stopWords;
-    private final int minWordLength;
+    private final Settings settings;
 
-    public FrequencyFragmentAction(TextAnalyzer analyzer, StatsPrinter printer,
-                                   String path, Set<String> stopWords, int minWordLength) {
+    public FrequencyFragmentAction(TextAnalyzer analyzer, StatsPrinter printer, String path, Settings settings) {
         this.analyzer = analyzer;
         this.printer = printer;
         this.path = path;
-        this.stopWords = stopWords;
-        this.minWordLength = minWordLength;
+        this.settings = settings;
     }
 
     @Override
     public void execute() {
         printer.printFrequencyPreview(
-                analyzer, path, stopWords, minWordLength, WordSort.FREQUENCY_DESC
+                analyzer, path, settings.getStopWords(), settings.getMinWordLength(), WordSort.FREQUENCY_DESC
         );
     }
 
