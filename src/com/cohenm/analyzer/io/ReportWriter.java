@@ -10,30 +10,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
-/**
- * Klasa odpowiedzialna za zapis gotowych raportów do plików.
- * Nie analizuje tekstu i nie buduje treści raportu — jedynie
- * deleguje formatowanie do odpowiedniego Formattera oraz
- * zapisuje wynik na dysku.
- */
 public class ReportWriter {
 
-    /**
-     * Obsługiwane formaty raportów.
-     */
     public enum Format {
         CSV, TXT, JSON, XML
     }
 
-    /**
-     * Zapisuje raport do pliku.
-     *
-     * @param outputPath ścieżka docelowa
-     * @param type       typ raportu (BASIC, FULL, FREQUENCY)
-     * @param stats      statystyki tekstu
-     * @param freq       mapa częstotliwości słów
-     * @param format     format raportu
-     */
     public static void writeReport(Path outputPath,
                                    ReportType type,
                                    TextStats stats,
@@ -57,9 +39,6 @@ public class ReportWriter {
         }
     }
 
-    /**
-     * Zwraca odpowiedni formatter na podstawie formatu.
-     */
     public static Formatter formatter(Format format) {
         return switch (format) {
             case CSV -> new CsvFormatter();
@@ -69,9 +48,6 @@ public class ReportWriter {
         };
     }
 
-    /**
-     * Zapisuje treść do pliku, tworząc katalogi jeśli trzeba.
-     */
     public static void write(Path path, String content) throws IOException {
         Files.createDirectories(path.getParent());
         Files.writeString(path, content);

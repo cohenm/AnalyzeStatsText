@@ -12,12 +12,6 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Klasa odpowiedzialna za orkiestrację procesu tworzenia raportów:
- * - pobiera dane z TextAnalyzer,
- * - deleguje budowanie treści do ReportBuilder,
- * - deleguje zapis do ReportWriter.
- */
 public class ReportSaver {
 
     private final TextAnalyzer analyzer;
@@ -26,18 +20,6 @@ public class ReportSaver {
         this.analyzer = analyzer;
     }
 
-    /**
-     * Tworzy i zapisuje raport do pliku.
-     *
-     * @param outputPath   ścieżka docelowa
-     * @param inputPath    ścieżka do pliku wejściowego
-     * @param type         typ raportu (BASIC, FULL, FREQUENCY)
-     * @param stopWords    zbiór stop-words
-     * @param minWordLength minimalna długość słowa
-     * @param sortMode     tryb sortowania słów
-     * @param topN         liczba słów dla TOP_WORDS (ignorowane dla innych typów)
-     * @param format       format raportu (CSV, TXT, JSON, XML)
-     */
     public void saveReport(Path outputPath,
                            String inputPath,
                            ReportType type,
