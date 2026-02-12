@@ -10,7 +10,27 @@ import java.util.*; // Map, Set, List, Comparator, etc.
 import java.util.stream.Collectors;
 
 /**
- * TextAnalyzer -> serce core/ scala wykorzystanie interfejsów i ich implementacji
+ * Główna klasa odpowiedzialna za analizę tekstu. Łączy działanie
+ * normalizatora, tokenizera oraz dzielnika zdań, dostarczając
+ * spójny zestaw metod do obliczania statystyk tekstu, częstotliwości
+ * słów oraz generowania rankingów.
+ *
+ *
+ * <p>TextAnalyzer pełni rolę centralnego komponentu logiki aplikacji.</p>
+ * <p>Wykorzystuje:</p>
+ * <ul>
+ *     <li>{@link Normalizer} – przygotowanie tekstu (np. usunięcie interpunkcji, lowercase),</li>
+ *     <li>{@link Tokenizer} – dzielenie tekstu na słowa,</li>
+ *     <li>{@link SentenceTokenizer} – dzielenie tekstu na zdania.</li>
+ * </ul>
+ *
+ * @see Normalizer
+ * @see Tokenizer
+ * @see SentenceTokenizer
+ * @see FileReader
+ * @see WordSort
+ * @see WordCount
+ * @see TextStats
  */
 
 public class TextAnalyzer {
@@ -18,8 +38,15 @@ public class TextAnalyzer {
     private final Tokenizer tokenizer;
     private final SentenceTokenizer sentenceTokenizer;
 
+
     /**
-     * Konstruktor - wywołujący normalizera i tokenizery
+     * Tworzy nowy analizator tekstu, wymagający trzech komponentów:
+     * normalizatora, tokenizatora oraz dzielnika zdań.
+     *
+     * @param normalizer implementacja normalizacji tekstu
+     * @param tokenizer implementacja tokenizacji tekstu
+     * @param sentenceTokenizer implementacja dzielenia na zdania
+     * @throws NullPointerException jeśli którykolwiek argument jest null
      */
     public TextAnalyzer(Normalizer normalizer,
                         Tokenizer tokenizer,
@@ -29,8 +56,18 @@ public class TextAnalyzer {
         this.sentenceTokenizer = Objects.requireNonNull(sentenceTokenizer, "sentenceTokenizer must not be null");
     }
 
+
     /**
-     * analiza tekstu
+     * Analizuje przekazany tekst, obliczając podstawowe statystyki.
+     * <ul>
+     *     <li>liczbę znaków ze spacjami,</li>
+     *     <li>liczbę znaków bez spacji,</li>
+     *     <li>liczbę słów,</li>
+     *     <li>liczbę zdań.</li>
+     * </ul>
+     *
+     * @param text tekst wejściowy, może być null
+     * @return obiekt {@link TextStats} z wynikami analizy
      */
     public TextStats analyze(String text) {
         String original = Objects.requireNonNullElse(text, "");
@@ -46,18 +83,36 @@ public class TextAnalyzer {
         return new TextStats(charsWithSpaces, charsWithoutSpaces, words.size(), sentences.size());
     }
 
+
     /**
-     * Analiza pliku (delegacja do FileReader)
+     * Analizuje zawartość pliku wskazanego ścieżką. Wczytuje plik
+     * za pomocą {@link FileReader#readFile(String)} i deleguje analizę
+     * do metody {@link TextAnalyzer#analyze(String)}.
+     *
+     * @param path ścieżka do pliku tekstowego
+     * @return statystyki tekstu
+     * @throws IOException jeśli plik nie może zostać odczytany
      */
     public TextStats analyzeFile(String path) throws IOException {
         String content = FileReader.readFile(path); // wywołanie static funkcji czytania pliku
         return analyze(content);
     }
 
-    // częstotliwości słów
 
     /**
-     * Pełna mapa częstotliwości (po normalizacji), z opcjonalnymi stop‑words i minimalną długością słowa.
+     * Tworzy mapę częstotliwości słów na podstawie tekstu.
+     * Tekst jest normalizowany i tokenizowany, a następnie
+     * filtrowany zgodnie z:
+     *
+     * <ul>
+     *     <li>listę stop-words (opcjonalnie),</li>
+     *     <li>minimalną długością słowa.</li>
+     * </ul>
+     *
+     * @param text tekst wejściowy
+     * @param stopWords zbiór słów do pominięcia (może być nulL)
+     * @param minWordLength minimalna długość słowa (min. 1)
+     * @return mapa słowo -> liczba wystąpień
      */
     public Map<String, Integer> wordFrequencyFromText(String text,
                                                       Set<String> stopWords,
@@ -75,7 +130,13 @@ public class TextAnalyzer {
     }
 
     /**
-     * Wersje plikowe (delegują do readFileToString).
+     * Wersja plikowa metody {@link #wordFrequencyFromText(String, Set, int)}.
+     *
+     * @param path ścieżka do pliku
+     * @param stopWords zbiór stop-words
+     * @param minWordLength minimalna długość słowa
+     * @return mapa częstotliwości słów
+     * @throws IOException jeśli plik nie może zostać wczytany
      */
     public Map<String, Integer> wordFrequencyFromFile(String path,
                                                       Set<String> stopWords,
@@ -83,8 +144,18 @@ public class TextAnalyzer {
         return wordFrequencyFromText(FileReader.readFile(path), stopWords, minWordLength);
     }
 
+
     /**
-     * Zwraca listę słów posortowaną zgodnie z WordSort; limit topN (min. 1).
+     * Zwraca listę najczęściej występujących słów, posortowaną zgodnie
+     * z trybem sortowania określonym przez {@link WordSort}. Wynik jest
+     * ograniczony do topN elementów.
+     *
+     * @param text tekst wejściowy
+     * @param topN liczba elementów do zwrócenia (min. 1)
+     * @param stopWords zbiór stop-words
+     * @param minWordLength minimalna długość słowa
+     * @param sortMode tryb sortowania
+     * @return lista obiektów {@link WordCount}
      */
     public List<WordCount> topWordsFromText(String text,
                                             int topN,
@@ -100,6 +171,9 @@ public class TextAnalyzer {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Wersja plikowa metody {@link #topWordsFromText(String, int, Set, int, WordSort)}.
+     */
     public List<WordCount> topWordsFromFile(String path,
                                             int topN,
                                             Set<String> stopWords,
@@ -109,9 +183,15 @@ public class TextAnalyzer {
         return topWordsFromText(content, topN, stopWords, minWordLength, sortMode);
     }
 
-
     /**
-     * Pełna lista posortowana wg WordSort (bez limitu).
+     * Zwraca pełną listę słów wraz z ich częstotliwościami, posortowaną
+     * zgodnie z trybem sortowania określonym przez {@link WordSort}
+     *
+     * @param text tekst wejściowy
+     * @param stopWords zbiór stop-words
+     * @param minWordLength minimalna długość słowa
+     * @param sortMode tryb sortowania
+     * @return lista obiektów {@link WordCount}
      */
     public List<WordCount> allWordsFromTextSorted(String text,
                                                   Set<String> stopWords,
@@ -125,8 +205,13 @@ public class TextAnalyzer {
                 .collect(Collectors.toList());
     }
 
+
     /**
-     * (Opcjonalnie) Zwraca posortowaną mapę częstotliwości jako LinkedHashMap (kolejność wg sortMode).
+     * @param text tekst wejściwowy
+     * @param stopWords zbiór stop-words
+     * @param minWordLength minimalna długość słowa
+     * @param sortMode tryb sortowania
+     * @return posortowana mapa słowo -> liczba wystąpień
      */
     public Map<String, Integer> wordFrequencySorted(String text,
                                                     Set<String> stopWords,

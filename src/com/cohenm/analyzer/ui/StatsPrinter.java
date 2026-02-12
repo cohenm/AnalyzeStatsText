@@ -7,10 +7,35 @@ import com.cohenm.analyzer.model.WordSort;
 
 import java.util.*;
 
+/**
+ * Klasa odpowiedzialna za prezentację wyników analizy tekstu w konsoli.
+ * Udostępnia metody wyświetlające:
+ * <ul>
+ *     <li>podstawowe statystyki tekstu,</li>
+ *     <li>listę najczęściej występujących słów (Top N),</li>
+ *     <li>fragment mapy częstotliwości (pierwsze 50 pozycji).</li>
+ * </ul>
+ *
+ * <p>StatsPrinter pełni rolę warstwy UI — nie zapisuje danych do plików
+ * ani nie generuje raportów, lecz jedynie prezentuje wyniki użytkownikowi.
+ * Dane są pobierane z {@link TextAnalyzer}, a błędy odczytu pliku są
+ * obsługiwane w sposób przyjazny dla użytkownika.</p>
+ *
+ * @see TextAnalyzer
+ * @see WordCount
+ * @see WordSort
+ */
 public class StatsPrinter {
 
     // ===================== PODSTAWOWE STATYSTYKI =====================
 
+    /**
+     * Wyświetla podstawowe statystyki tekstu w konsoli.
+     * W przypadku błędu odczytu pliku wypisywany jest komunikat błędu.
+     *
+     * @param analyzer analizator tekstu
+     * @param path     ścieżka do pliku wejściowego
+     */
     public void printBasic(TextAnalyzer analyzer, String path) {
         try {
             TextStats stats = analyzer.analyzeFile(path);
@@ -28,6 +53,17 @@ public class StatsPrinter {
 
     // ===================== TOP N SŁÓW =====================
 
+    /**
+     * Wyświetla listę najczęściej występujących słów (Top N), posortowaną
+     * zgodnie z trybem określonym przez {@link WordSort}.
+     *
+     * @param analyzer      analizator tekstu
+     * @param path          ścieżka do pliku wejściowego
+     * @param n             liczba słów do wyświetlenia
+     * @param stopWords     zbiór słów do pominięcia (opcjonalnie)
+     * @param minWordLength minimalna długość słowa
+     * @param sortMode      tryb sortowania
+     */
     public void printTop(TextAnalyzer analyzer,
                          String path,
                          int n,
@@ -56,6 +92,15 @@ public class StatsPrinter {
 
     // ===================== FRAGMENT CZĘSTOTLIWOŚCI =====================
 
+    /**
+     * Wyświetla fragment mapy częstotliwości słów — maksymalnie pierwsze 50 pozycji,
+     * posortowane malejąco po liczbie wystąpień, a następnie alfabetycznie.
+     *
+     * @param analyzer      analizator tekstu
+     * @param path          ścieżka do pliku wejściowego
+     * @param stopWords     zbiór słów do pominięcia (opcjonalnie)
+     * @param minWordLength minimalna długość słowa
+     */
     public void printFrequencyFragment(TextAnalyzer analyzer,
                                        String path,
                                        Set<String> stopWords,

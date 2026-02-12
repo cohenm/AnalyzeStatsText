@@ -9,6 +9,26 @@ import com.cohenm.analyzer.ui.ReportSaver;
 
 import java.util.*;
 
+/**
+ * Klasa odpowiedzialna za obsługę interaktywnego menu aplikacji.
+ * Pozwala użytkownikowi wykonywać różne operacje analizy tekstu,
+ * takie jak wyświetlanie statystyk, filtrowanie słów, zapisywanie raportów
+ * oraz konfiguracja parametrów analizy.
+ *
+ * <p>Menu współpracuje z obiektem {@link TextAnalyzer}, który wykonuje
+ * właściwą analizę tekstu na podstawie pliku wskazanego przez użytkownika.
+ * Dodatkowo korzysta z komponentów UI:</p>
+ * <ul>
+ *     <li>{@link UserInput} - obsługa wejścia użytkownika,</li>
+ *     <li>{@link StatsPrinter} - wyświetlanie wyników analizy,</li>
+ *     <li>{@link ReportSaver} - zapisywanie raportów do plików.</li>
+ * </ul>
+ *
+ * <p>Klasa przechowuje również zestaw stop-words oraz minimalną długość słowa,
+ * które mogą być dynamicznie zmieniane przez użytkownika.</p>
+ *
+ * <p>Główna metoda {@link #run()} uruchamia pętle menu i reaguje na wybory użytkownika.</p>
+ */
 public class TextMenu {
 
     private final TextAnalyzer analyzer;
@@ -26,6 +46,12 @@ public class TextMenu {
 
     private int minWordLength = 2;
 
+    /**
+     * Tworzy nowe menu tekstowe powiązane z analizatorem oraz ścieżką pliku.
+     * @param analyzer obiekt analizujący tekst
+     * @param path ścieżka do pliku tekstowego
+     * @param sc skaner używany do odczytu danych od użytkownika
+     */
     public TextMenu(TextAnalyzer analyzer, String path, Scanner sc) {
         this.analyzer = analyzer;
         this.path = path;
@@ -36,6 +62,11 @@ public class TextMenu {
 
     // ===================== MENU =====================
 
+    /**
+     * Uruchamia główną pętlę menu. Metoda wyświetla dostępne opcje,
+     * odczytuje wybór użytkownika i wykonuje odpowiednie operacje.
+     * Pętla trwa do momentu wybrania opcji zakończenia programu.
+     */
     public void run() {
         while (true) {
             printMenu();
@@ -57,6 +88,11 @@ public class TextMenu {
 
     // ===================== LOGIKA OPCJI =====================
 
+    /**
+     * Wyświetla listę najczęściej występujących słów.
+     * Użytkownik podaje liczbę N oraz sposób sortowania.
+     * Wyniki są drukowane przez {@link StatsPrinter}.
+     */
     private void showTopWords() {
         int n = input.askInt("Podaj N", 20);
         WordSort sort = input.askSortMode();
@@ -64,6 +100,11 @@ public class TextMenu {
     }
 
 
+    /**
+     * Włącza lub wyłącza filtr stop-words.
+     * Jeśli lista stop-words jest pusta - zostaje ponownie załadowana.
+     * Jeśli nie - zostaje wyczyszczona.
+     */
     private void toggleStopWords() {
         if (stopWords.isEmpty()) {
             stopWords.addAll(List.of("i","oraz","że","to","w","na","z","do","się","jest","nie","a","o","po","u",
@@ -77,11 +118,13 @@ public class TextMenu {
         }
     }
 
-
     private boolean stopWordsEnabled() {
         return !stopWords.isEmpty();
     }
 
+    /**
+     * Wyświetla tekstowe menu dostępnych opcji.
+     */
     private void printMenu() {
         System.out.println("""
                 
