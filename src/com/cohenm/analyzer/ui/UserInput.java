@@ -45,7 +45,7 @@ public class UserInput {
 
     // ===================== FORMAT RAPORTU =====================
 
-    public ReportWriter.Format askFormat() {
+    public ReportWriter.Format askReportFormat() {
         System.out.print("Wybierz format (csv/txt/json/xml): ");
         String f = sc.nextLine().trim().toLowerCase(Locale.ROOT);
 
@@ -56,32 +56,34 @@ public class UserInput {
             case "xml" -> ReportWriter.Format.XML;
             default -> {
                 System.out.println("Nieznany format, domyślnie JSON");
-                yield ReportWriter.Format.JSON;
+                yield ReportWriter.Format.TXT;
             }
         };
     }
-
-    public ReportWriter.Format askReportFormat() {
-        return askFormat();
-    }
-
 
     // ===================== SORTOWANIE =====================
 
     public WordSort askSortMode() {
-        System.out.print("Wybierz sortowanie (alpha / freq-desc / freq-asc): ");
-        String s = sc.nextLine().trim().toLowerCase(Locale.ROOT);
+        System.out.println("""
+            Wybierz sortowanie:
+            1) Alfabetycznie (A → Z)
+            2) Częstotliwość malejąco
+            3) Częstotliwość rosnąco
+            Wybór (ENTER = 2): """);
+
+        String s = sc.nextLine().trim();
 
         return switch (s) {
-            case "alpha", "alf", "alphabetic", "alfabetycznie" -> WordSort.ALPHABETIC;
-            case "freq-desc", "desc", "malejąco" -> WordSort.FREQUENCY_DESC;
-            case "freq-asc", "asc", "rosnąco" -> WordSort.FREQUENCY_ASC;
+            case "1" -> WordSort.ALPHABETIC;
+            case "2" -> WordSort.FREQUENCY_DESC;
+            case "3" -> WordSort.FREQUENCY_ASC;
             default -> {
-                System.out.println("Nieznany tryb, domyślnie freq-desc.");
+                System.out.println("Nieznana opcja, używam: częstotliwość malejąco.");
                 yield WordSort.FREQUENCY_DESC;
             }
         };
     }
+
 
     // ===================== ŚCIEŻKI =====================
 
