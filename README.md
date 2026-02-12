@@ -8,15 +8,15 @@
 
 
 
-Text Analyzer to lekki, modularny projekt w Javie służący do analizy tekstu, generowania statystyk, liczenia częstotliwości słów oraz tworzenia raportów w różnych formatach.  
+Text Analyzer to lekki, modularny projekt w Javie służący do analizy tekstu, generowania statystyk, liczenia częstotliwości słów oraz tworzenia raportów w różnych formatach.
 
 Projekt został zaprojektowany w architekturze warstwowej, z wyraźnym podziałem na:
 
-* **core** – logika analizy tekstu  
-* **model** – struktury danych  
-* **io** – zapis i formatowanie raportów  
-* **ui** – interakcja z użytkownikiem  
-* **util** – narzędzia pomocnicze  
+* **core** – logika analizy tekstu
+* **model** – struktury danych
+* **io** – zapis i formatowanie raportów
+* **ui** – interakcja z użytkownikiem
+* **util** – narzędzia pomocnicze
 
 Całość jest w pełni udokumentowana i łatwa do rozszerzenia.
 
@@ -30,17 +30,17 @@ Całość jest w pełni udokumentowana i łatwa do rozszerzenia.
 
 **Analiza tekstu i plików:**
 
-* liczba słów  
-* liczba znaków (ze spacjami i bez)  
-* liczba zdań  
+* liczba słów
+* liczba znaków (ze spacjami i bez)
+* liczba zdań
 
 
 
 **Liczenie częstotliwości słów:**
 
-* filtrowanie stop‑words  
-* minimalna długość słowa  
-* sortowanie wg `WordSort`  
+* filtrowanie stop‑words
+* minimalna długość słowa
+* sortowanie wg `WordSort`
 
 
 
@@ -53,11 +53,11 @@ Całość jest w pełni udokumentowana i łatwa do rozszerzenia.
 
 
 
-Zapis raportów do plików z automatycznym tworzeniem katalogów  
+Zapis raportów do plików z automatycznym tworzeniem katalogów
 
-Interaktywne UI w konsoli  
+Interaktywne UI w konsoli
 
-Czytelne formatowanie wyników  
+Czytelne formatowanie wyników
 
 
 
@@ -143,11 +143,11 @@ src/
 
 
 
-1. *Normalizację* tekstu  
-2. *Tokenizację* słów  
+1. *Normalizację* tekstu
+2. *Tokenizację* słów
 3. *Tokenizację* zdań
 4. Obliczenie statystyk *TextStats*
-5. Liczenie częstotliwości słów  
+5. Liczenie częstotliwości słów
 6. Sortowanie wg *WordSort*
 
 
@@ -218,28 +218,17 @@ ipsum                : 12
 
 
 
-```json
-
+json
 {
-
-&nbsp; "type": "basic\_stats",
-
-&nbsp; "generatedAt": "2025-01-01T12:00:00+01:00",
-
-&nbsp; "stats": {
-
-&nbsp;   "words": 123,
-
-&nbsp;   "charsWithSpaces": 789,
-
-&nbsp;   "charsWithoutSpaces": 654,
-
-&nbsp;   "sentences": 7
-
-&nbsp; }
-
+\&nbsp; "type": "basic\\\_stats",
+\&nbsp; "generatedAt": "2025-01-01T12:00:00+01:00",
+\&nbsp; "stats": {
+\&nbsp;   "words": 123,
+\&nbsp;   "charsWithSpaces": 789,
+\&nbsp;   "charsWithoutSpaces": 654,
+\&nbsp;   "sentences": 7
+\&nbsp; }
 }
-
 
 
 
@@ -248,20 +237,17 @@ ipsum                : 12
 
 
 
-Raporty zapisywane są automatycznie do katalogu:
-
+**Raporty zapisywane są automatycznie do katalogu:**
 
 
 output/
 
 
 
-Przykład:
+**Przykład:**
 
 
-
-output/example-basic\_stats.json
-
+output/example-basic\\\_stats.json
 
 
 
@@ -271,9 +257,7 @@ output/example-basic\_stats.json
 
 
 Java 23+
-
 Pliki wejściowe w katalogu resources/
-
 
 
 
@@ -285,25 +269,19 @@ Pliki wejściowe w katalogu resources/
 **1. Skompiluj projekt**
 
 
-
 mvn clean package
-
 lub
 
-javac -d out $(find src -name "\*.java")
-
+javac -d out $(find src -name "\\\*.java")
 
 
 **2. Uruchom aplikację**
 
 
-
 Jeśli masz klasę Main:
 
 
-
 java -cp out com.cohenm.analyzer.Main
-
 
 
 
@@ -315,20 +293,14 @@ java -cp out com.cohenm.analyzer.Main
 Możesz łatwo dodać:
 
 
-
 ✔ nowy format raportu
-
 Wystarczy stworzyć klasę implementującą Formatter i dodać ją w ReportWriter.
 
 
-
 ✔ nowe metryki analizy
-
 Dodaj pola do TextStats i logikę w TextAnalyzer.
 
 
-
 ✔ nowe tryby sortowania
-
 Dodaj wartość w WordSort.
 
