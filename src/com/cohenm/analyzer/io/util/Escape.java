@@ -1,23 +1,5 @@
 package com.cohenm.analyzer.io.util;
 
-/**
- * Klasa narzędziowa odpowiedzialna za escapowanie tekstu na potrzeby
- * różnych formatów raportów generowanych przez aplikację. Zapewnia
- * bezpieczne przekształcanie znaków specjalnych tak, aby wynikowy tekst
- * był poprawny składniowo w formatach:
- * <ul>
- *     <li>CSV – zgodnie z zasadami RFC 4180,</li>
- *     <li>JSON – z poprawnym escapowaniem znaków specjalnych,</li>
- *     <li>XML – z konwersją znaków niedozwolonych w treści elementów i atrybutów.</li>
- * </ul>
- *
- * <p>Klasa jest statyczna i bezstanowa — wszystkie metody są czysto
- * funkcyjne i deterministyczne.</p>
- *
- * @see com.cohenm.analyzer.io.format.CsvFormatter
- * @see com.cohenm.analyzer.io.format.JsonFormatter
- * @see com.cohenm.analyzer.io.format.XmlFormatter
- */
 public class Escape {
 
     /**

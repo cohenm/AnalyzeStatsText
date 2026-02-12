@@ -1,23 +1,57 @@
 package com.cohenm.analyzer.app;
 
-import com.cohenm.analyzer.core.*;
-import com.cohenm.analyzer.model.*;
+import com.cohenm.analyzer.app.menu.MenuAction;
+import com.cohenm.analyzer.app.menu.MenuActionFactory;
+import com.cohenm.analyzer.app.menu.MenuOption;
+import com.cohenm.analyzer.core.DefaultNormalizer;
+import com.cohenm.analyzer.core.TextAnalyzer;
+import com.cohenm.analyzer.core.WhitespaceTokenizer;
+import com.cohenm.analyzer.core.DefaultSentenceTokenizer;
+import com.cohenm.analyzer.ui.ReportSaver;
+import com.cohenm.analyzer.ui.StatsPrinter;
+import com.cohenm.analyzer.ui.UserInput;
+
 import java.util.*;
 
 public class TextApp {
+
     public static void main(String[] args) {
 
         TextAnalyzer analyzer = new TextAnalyzer(
                 new DefaultNormalizer(),
                 new WhitespaceTokenizer(),
-                new DefaultSentenceTokenizer());
+                new DefaultSentenceTokenizer()
+        );
 
         Scanner sc = new Scanner(System.in);
+        UserInput input = new UserInput(sc);
 
         System.out.print("Podaj bazową nazwę pliku (bez .txt): ");
-        String baseName = sc.nextLine().trim();
+        String baseName = input.readLine().trim();
         String path = baseName + ".txt";
 
-        new TextMenu (analyzer, path, sc).run();
+        StatsPrinter printer = new StatsPrinter();
+        ReportSaver saver = new ReportSaver(analyzer);
+
+        Set<String> stopWords = new HashSet<>(List.of(
+                "i","oraz","że","to","w","na","z","do","się","jest","nie","a","o","po","u","ten","ta","to",
+                "jak","który","która","które","te","dla","przy","albo","lub","czy","tam","tu","nad","pod",
+                "od","bez","więc","co","tak","tylko","mnie","ciebie","jego","jej","ich"
+        ));
+
+        int[] minWordLengthRef = { 2 };
+
+        Map<MenuOption, MenuAction> actions = MenuActionFactory.create(
+                analyzer,
+                path,
+                input,
+                printer,
+                saver,
+                stopWords,
+                minWordLengthRef
+        );
+
+        TextMenu menu = new TextMenu(input, actions);
+        menu.run();
     }
 }

@@ -3,27 +3,6 @@ package com.cohenm.analyzer.io.util;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Klasa narzędziowa odpowiedzialna za sortowanie map częstotliwości słów.
- * Udostępnia metodę zwracającą posortowaną listę wpisów mapy
- * (słowo → liczba wystąpień), zgodnie z jednolitymi zasadami:
- *
- * <ul>
- *     <li>najpierw sortowanie malejąco po wartości (częstotliwości),</li>
- *     <li>w przypadku remisu — sortowanie alfabetyczne po kluczu.</li>
- * </ul>
- *
- * <p>Metoda jest wykorzystywana m.in. przez formattery raportów
- * (CSV, JSON, XML, TXT), aby zapewnić spójny porządek danych
- * niezależnie od formatu wyjściowego.</p>
- *
- * <p>Klasa jest bezstanowa — wszystkie metody są statyczne.</p>
- *
- * @see com.cohenm.analyzer.io.format.CsvFormatter
- * @see com.cohenm.analyzer.io.format.JsonFormatter
- * @see com.cohenm.analyzer.io.format.XmlFormatter
- * @see com.cohenm.analyzer.io.format.TxtFormatter
- */
 public class SortUtil {
 
     /**
