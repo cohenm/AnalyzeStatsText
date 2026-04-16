@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.cohenm.analyzer.app.FxController"
+            fx:controller="com.cohenm.analyzer.fx.FxController"
             prefWidth="900" prefHeight="600">
     <top>
         <HBox spacing="8" style="-fx-padding: 10;">

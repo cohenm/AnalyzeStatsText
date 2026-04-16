@@ -1,5 +1,6 @@
-package com.cohenm.analyzer.app;
+package com.cohenm.analyzer.cli;
 
+import com.cohenm.analyzer.app.Settings;
 import com.cohenm.analyzer.app.menu.MenuAction;
 import com.cohenm.analyzer.app.menu.MenuActionFactory;
 import com.cohenm.analyzer.app.menu.MenuOption;

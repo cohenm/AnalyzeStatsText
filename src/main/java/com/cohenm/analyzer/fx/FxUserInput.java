@@ -1,4 +1,4 @@
-package com.cohenm.analyzer.app;
+package com.cohenm.analyzer.fx;
 
 import com.cohenm.analyzer.io.ReportWriter;
 import com.cohenm.analyzer.model.WordSort;
